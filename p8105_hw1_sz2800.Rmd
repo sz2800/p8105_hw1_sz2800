@@ -1,0 +1,36 @@
+---
+title: "p8105_hw1_sz2800.Rmd"
+author: "Stephanie Zhen"
+date: "9/17/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+##Loading library tidyverse
+```{r}
+library(tidyverse)
+```
+##Create a data frame comprised of:
+
+#A random sample of size 8 from a standard Normal distribution.
+
+#A logical vector indicating whether elements of the sample are greater than 0.
+
+#A character vector of length 8.
+
+#A factor vector of length 8, with 3 different factor “levels.”
+
+```{r}
+hw1q1_df = tibble(
+  ran_sample = runif(8),
+  vec_logical = c(TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE, TRUE),
+  vec_char = c("breakfast", "lunch", "dinner",  "sleep", "coffee", "stars", "nap", "snacks"),
+  vec_factor = factor(c("morning", "afternoon", "night", "night", "morning", "night", "afternoon", "afternoon"))
+)
+
+```
+
+
