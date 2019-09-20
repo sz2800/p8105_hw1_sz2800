@@ -1,27 +1,25 @@
 ---
 title: "p8105_hw1_sz2800.Rmd"
 author: "Stephanie Zhen"
-date: "9/17/2019"
-output: html_document
+date: "9/20/2019"
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
 
-##Loading library tidyverse
 ```{r}
 library(tidyverse)
 ```
-##Q1: Create a data frame comprised of:
+### Q1: Create a data frame comprised of:
 
-#A random sample of size 8 from a standard Normal distribution.
+A random sample of size 8 from a standard Normal distribution.
 
-#A logical vector indicating whether elements of the sample are greater than 0.
+A logical vector indicating whether elements of the sample are greater than 0.
 
-#A character vector of length 8.
+A character vector of length 8.
 
-#A factor vector of length 8, with 3 different factor “levels.”
+A factor vector of length 8, with 3 different factor “levels.”
 
 ```{r}
 hw1q1_df = tibble(
@@ -32,61 +30,62 @@ hw1q1_df = tibble(
 )
 ```
 
-##Taking mean of ran_sample, vec_logical, vec_char, vec_factor
+##### Taking mean of ran_sample, vec_logical, vec_char, vec_factor
 ```{r}
 mean(pull(hw1q1_df, ran_sample))
 mean(pull(hw1q1_df, vec_logical))
 mean(pull(hw1q1_df, vec_char))
 mean(pull(hw1q1_df, vec_factor))
 ```
-##The mean is -0.2180989 for ran_sample.
+The mean for the numerical variable(ran_sample) and the logical variable were computed. 
 
-##The mean for vec_logical is 1.
-
-##For vec_char, and vec_factors, it returns NA. This makes sense because vec_char and vec_factors are not logicals nor numerics.
+For vec_char, and vec_factors, it returns NA. This makes sense because vec_char and vec_factors are not logicals nor numerics and thus the means cannot be computed. 
 
 
-##Applying "as.numeric" function to the vec_logical, vec_char, and vec_factor.
+##### Applying "as.numeric" function to the vec_logical, vec_char, and vec_factor.
 
 ```{r}
 mean(as.numeric(pull(hw1q1_df, vec_logical)))
 mean(as.numeric(pull(hw1q1_df, vec_char)))
 mean(as.numeric(pull(hw1q1_df, vec_factor)))
 ```
-##After applying as.numeric (), the mean for vec_logical is 1. TRUE is coded as 1, and FALSE is coded as 0.
+After applying as.numeric (), a mean value for the logical variable is computed. 
 
-##After applying as.numeric () for vec_char, an error message was returned: "NA was introduced by coercion". The character variables can not be cohered into numeric values
+After applying as.numeric () for vec_char, an error message was returned: "NA was introduced by coercion". The character variable can not be cohereced into numeric values.
 
-##After applying as.numeric (), the mean for vec_factor is 2. The levels get assigned a numeric value arbitarally?
+After applying as.numeric (), a mean for the factor variable can be computed. The as.numeric() function was able to assign numerical values to each level.
 
-##Convert the logical vector to numeric, and multiply the random sample by the result.
+
+##### Convert the logical vector to numeric, and multiply the random sample by the result.
+
 ```{r}
 as.numeric(pull(hw1q1_df, vec_logical)) * pull(hw1q1_df,ran_sample)
 ```
 
-##Convert the logical vector to a factor, and multiply the random sample by the result
+##### Convert the logical vector to a factor, and multiply the random sample by the result
 ```{r}
 as.factor(pull(hw1q1_df, vec_logical)) * pull(hw1q1_df,ran_sample)
 ```
-##Returns "NA"
+Returns "NA," becuase the factors are not numerical values (or logicals) and thus unable to return a reasonable answer.
 
-##Convert the logical vector to a factor and then convert the result to numeric, and multiply the random sample by the result.
+##### Convert the logical vector to a factor and then convert the result to numeric, and multiply the random sample by the result.
 ```{r}
 as.numeric(as.factor(pull(hw1q1_df, vec_logical))) * pull(hw1q1_df,ran_sample)
 ```
 
 
-##Create a data frame comprised of:
+### Q2:Create a data frame comprised of:
 
-#x: a random sample of size 500 from a standard Normal distribution
+x: a random sample of size 500 from a standard Normal distribution
 
-#y: a random sample of size 500 from a standard Normal distribution
+y: a random sample of size 500 from a standard Normal distribution
 
-#A logical vector indicating whether x + y > 1
+A logical vector indicating whether x + y > 1
 
-#A numeric vector created by coercing the above logical vector
+A numeric vector created by coercing the above logical vector
 
-#A factor vector created by coercing the above logical vector
+A factor vector created by coercing the above logical vector
+
 ```{r}
 hw1q2_df = tibble(
   x = rnorm(500),
@@ -96,7 +95,6 @@ hw1q2_df = tibble(
   q2_factor = as.factor(q2_logical)
 )
 ```
-
 
 Number of rows in dataframe, hw1q2_df: `r nrow(hw1q2_df)`
 
@@ -110,24 +108,33 @@ Standard deviation of dataframe, hw1q2_df: `r sd(pull(hw1q2_df, x))`
 
 Proportions of cases for which x + y > 1 in dataframe, hw1q2_df: `r mean(pull(hw1q2_df, q2_numeric))`
 
-##ggplot_1: Make ggplot y vs x using color = q2_logical. 
+##### ggplot_1: Make ggplot y vs x using color = q2_logical and exported plot using ggsave. 
 ```{r}
-ggplot(hw1q2_df, aes(x = x, y = y, color = q2_logical)) + 
+ ggplot_logical <- ggplot(hw1q2_df, aes(x = x, y = y, color = q2_logical)) + 
   geom_point()
+
+print(ggplot_logical + ggtitle("Y vs X with Logical"))
+
+ggsave("hw1q2_df.pdf")
 ```
 
-##ggplot_2: Make ggplot y vs x using color = q2_numeric. 
+## ggplot_2: Make ggplot y vs x using color = q2_numeric. 
 ```{r}
-ggplot(hw1q2_df, aes(x = x, y = y, color = q2_numeric)) + 
+ggplot_numeric <- ggplot(hw1q2_df, aes(x = x, y = y, color = q2_numeric)) + 
   geom_point()
+
+print(ggplot_numeric + ggtitle("Y vs X with Numeric"))
 ```
 
-##ggplot_3: Make ggplot y vs x using color = q2_factor. 
+## ggplot_3: Make ggplot y vs x using color = q2_factor. 
 ```{r}
-ggplot(hw1q2_df, aes(x = x, y = y, color = q2_factor)) + 
+ggplot_factor <- ggplot(hw1q2_df, aes(x = x, y = y, color = q2_factor)) + 
   geom_point()
+
+print(ggplot_factor + ggtitle("Y vs X with Factor"))
 ```
 
+The first and last plot with color = q2_logical and color = q2_factor only two color points in the color legend becuase both both variables have binary options. TRUE and FALSE for q2_logical and 2 levels for the q2_factor. The second plot, q2_numeric has a gradient of color, because q2_numeric is a numeric variable which means it is a continuous variable. Therefore, we get a scale of color in the legend for q2_numeric. We only see the colors blue and black, because we get 0 and 1 as results (the two extremes on the scale).
 
 
 
